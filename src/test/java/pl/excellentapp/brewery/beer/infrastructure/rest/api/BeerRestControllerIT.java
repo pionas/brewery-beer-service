@@ -122,7 +122,7 @@ class BeerRestControllerIT extends AbstractIT {
         // then
         assertEquals(HttpStatus.ACCEPTED, response.getStatusCode());
         final var responseVerify = restTemplate.getForEntity(BEERS_API_URL + "/{beerId}", BeerResponse.class, beerId);
-        assertEquals(HttpStatus.OK, responseVerify.getStatusCode());
+        assertEquals(HttpStatus.NOT_FOUND, responseVerify.getStatusCode());
     }
 
 }
