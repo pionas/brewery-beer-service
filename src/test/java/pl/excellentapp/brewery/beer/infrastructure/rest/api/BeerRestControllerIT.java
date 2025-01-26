@@ -29,7 +29,7 @@ class BeerRestControllerIT extends AbstractIT {
     }
 
     @Test
-    void getBeers_ShouldReturnEmptyListOfBeers() {
+    void shouldReturnEmptyListOfBeers() {
         // given
 
         // when
@@ -46,7 +46,7 @@ class BeerRestControllerIT extends AbstractIT {
 
     @Test
     @Sql({"/db/beers.sql"})
-    void getBeers_ShouldReturnListOfBeers() {
+    void shouldReturnListOfBeers() {
         // given
 
         // when
@@ -63,7 +63,7 @@ class BeerRestControllerIT extends AbstractIT {
 
     @Test
     @Sql({"/db/beers.sql"})
-    void getBeer_ShouldReturnBeer() {
+    void shouldReturnBeer() {
         // given
         final var beerId = UUID.fromString("1b4e28ba-2fa1-4d3b-a3f5-ef19b5a7633b");
 
@@ -82,11 +82,11 @@ class BeerRestControllerIT extends AbstractIT {
         assertEquals(50, responseBody.getQuantityToBrew());
         assertEquals(BigDecimal.valueOf(8.49), responseBody.getPrice());
         assertEquals(1, responseBody.getVersion());
-        assertEquals(LocalDateTime.of(2025, 1, 24, 13, 0, 0, 0), responseBody.getCreatedDate());
+        assertEquals(LocalDateTime.of(2025, 1, 24, 14, 0, 0, 0), responseBody.getCreatedDate());
     }
 
     @Test
-    void deleteBeer_ShouldThrowException() {
+    void shouldThrowNotFoundWhenBeerByIdNotExists() {
         // given
         final var beerId = UUID.fromString("1b4e28ba-2fa1-4d3b-a3f5-ef19b5a7633b");
 
@@ -105,7 +105,7 @@ class BeerRestControllerIT extends AbstractIT {
 
     @Test
     @Sql({"/db/beers.sql"})
-    void deleteBeer_ShouldDelete() {
+    void shouldDelete() {
         // given
         final var beerId = UUID.fromString("1b4e28ba-2fa1-4d3b-a3f5-ef19b5a7633b");
 
@@ -122,6 +122,24 @@ class BeerRestControllerIT extends AbstractIT {
         assertEquals(HttpStatus.ACCEPTED, response.getStatusCode());
         final var responseVerify = restTemplate.getForEntity(BEERS_API_URL + "/{beerId}", BeerResponse.class, beerId);
         assertEquals(HttpStatus.NOT_FOUND, responseVerify.getStatusCode());
+    }
+
+    @Test
+    void shouldThrowNotFoundWhenTryDeleteBeerButBeerByIdNotExists() {
+        // given
+        final var beerId = UUID.fromString("1b4e28ba-2fa1-4d3b-a3f5-ef19b5a7633b");
+
+        // when
+        final var response = restTemplate.exchange(
+                BEERS_API_URL + "/{beerId}",
+                HttpMethod.DELETE,
+                null,
+                Void.class,
+                beerId
+        );
+
+        // then
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
     }
 
 }
