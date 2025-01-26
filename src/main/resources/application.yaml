@@ -1,3 +1,13 @@
 spring:
   application:
     name: brewery-beer-service
+  datasource:
+    url: jdbc:h2:mem:brewery-beer-service;MODE=MYSQL
+    username: sa
+    password: password
+    driverClassName: org.h2.Driver
+  h2:
+    console:
+      enabled: true
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
