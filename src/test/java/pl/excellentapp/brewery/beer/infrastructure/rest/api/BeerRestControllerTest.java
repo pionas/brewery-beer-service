@@ -7,6 +7,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Spy;
 import org.springframework.http.MediaType;
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import pl.excellentapp.brewery.beer.application.BeerService;
@@ -17,10 +18,13 @@ import pl.excellentapp.brewery.beer.infrastructure.rest.api.dto.BeerRequest;
 import pl.excellentapp.brewery.beer.infrastructure.rest.api.dto.BeerResponse;
 import pl.excellentapp.brewery.beer.infrastructure.rest.api.dto.BeersResponse;
 import pl.excellentapp.brewery.beer.infrastructure.rest.api.mapper.BeerRestMapper;
+import pl.excellentapp.brewery.beer.infrastructure.rest.handler.GlobalExceptionHandler;
+import pl.excellentapp.brewery.beer.utils.DateTimeProvider;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -41,6 +45,9 @@ class BeerRestControllerTest extends AbstractMvcTest {
     @Mock
     private BeerService beerService;
 
+    @Mock
+    private DateTimeProvider dateTimeProvider;
+
     @Spy
     private BeerRestMapper beerRestMapper = Mappers.getMapper(BeerRestMapper.class);
 
@@ -50,6 +57,8 @@ class BeerRestControllerTest extends AbstractMvcTest {
     void setUp() {
         mockMvc = MockMvcBuilders
                 .standaloneSetup(controller)
+                .setControllerAdvice(new GlobalExceptionHandler(dateTimeProvider))
+                .setMessageConverters(new MappingJackson2HttpMessageConverter(getObjectMapper()))
                 .build();
     }
 
@@ -199,6 +208,47 @@ class BeerRestControllerTest extends AbstractMvcTest {
     }
 
     @Test
+    void shouldThrowExceptionWhenBeerRequestIsInvalid() throws Exception {
+        // given
+        final var beerRequest = BeerRequest.builder()
+                .build();
+        when(dateTimeProvider.now()).thenReturn(LOCAL_DATE_TIME);
+
+        // when
+        final var response = mockMvc.perform(post("/api/v1/beers")
+                        .content(super.mapToJson(beerRequest))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isBadRequest())
+                .andReturn()
+                .getResponse();
+
+        // then
+        final var expectedJson = """
+                    {
+                       "timestamp": "2025-01-23T12:07:00",
+                       "status": 400,
+                       "errors": {
+                         "beerName": ["must not be blank"],
+                         "beerStyle": ["must not be null"],
+                         "upc": ["must not be blank"],
+                         "minOnHand": ["must not be null"],
+                         "quantityToBrew": ["must not be null"],
+                         "price": ["must not be null"]
+                       }
+                     }
+                """;
+        assertNotNull(response);
+        final var responseBody = response.getContentAsString();
+        assertNotNull(responseBody);
+        final var expectedMap = super.mapFromJson(expectedJson, Map.class);
+        final var actualMap = super.mapFromJson(responseBody, Map.class);
+        assertEquals(expectedMap, actualMap);
+
+        verify(beerService, never()).create(any());
+    }
+
+    @Test
     void shouldReturnUpdatedBeer() throws Exception {
         // given
         final var localDateTime = LocalDateTime.of(2025, 1, 23, 12, 7, 10, 0);
@@ -243,7 +293,88 @@ class BeerRestControllerTest extends AbstractMvcTest {
     }
 
     @Test
-    void deleteBeer_ShouldDeletedBeer() throws Exception {
+    void shouldThrowNotFoundWhenTryUpdateBeerButBeerByIdNotExists() throws Exception {
+        // given
+        final var beer = createBeer(UUID.fromString("71737f0e-11eb-4775-b8b4-ce945fdee936"), "Test Beer", BeerStyleEnum.ALE, "12345", 5, 10, BigDecimal.valueOf(10.99), 1L, LOCAL_DATE_TIME, LOCAL_DATE_TIME);
+        final var beerRequest = BeerRequest.builder()
+                .beerName(beer.getBeerName())
+                .beerStyle(beer.getBeerStyle())
+                .upc(beer.getUpc())
+                .minOnHand(beer.getMinOnHand())
+                .quantityToBrew(beer.getQuantityToBrew())
+                .price(beer.getPrice())
+                .build();
+        when(beerService.update(any(), any())).thenThrow(new BeerNotFoundException("Beer Not Found. UUID: " + beer.getId()));
+        when(dateTimeProvider.now()).thenReturn(LOCAL_DATE_TIME);
+
+        // when
+        final var response = mockMvc.perform(put("/api/v1/beers/" + beer.getId())
+                        .content(super.mapToJson(beerRequest))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound())
+                .andReturn()
+                .getResponse();
+
+        // then
+        final var expectedJson = """
+                    {
+                       "timestamp": "2025-01-23T12:07:00",
+                       "status": 404,
+                       "errors": ["Beer Not Found. UUID: 71737f0e-11eb-4775-b8b4-ce945fdee936"]
+                     }
+                """;
+        assertNotNull(response);
+        final var responseBody = response.getContentAsString();
+        assertNotNull(responseBody);
+        final var expectedMap = super.mapFromJson(expectedJson, Map.class);
+        final var actualMap = super.mapFromJson(responseBody, Map.class);
+        assertEquals(expectedMap, actualMap);
+    }
+
+    @Test
+    void shouldThrowBadRequestWhenTryUpdateButBeerRequestIsInvalid() throws Exception {
+        // given
+        final var originalBeer = createBeer(UUID.fromString("71737f0e-11eb-4775-b8b4-ce945fdee936"), "Test Beer", BeerStyleEnum.ALE, "12345", 5, 10, BigDecimal.valueOf(10.99), 1L, LOCAL_DATE_TIME, LOCAL_DATE_TIME);
+        final var beerRequest = BeerRequest.builder()
+                .build();
+        when(dateTimeProvider.now()).thenReturn(LOCAL_DATE_TIME);
+
+        // when
+        final var response = mockMvc.perform(put("/api/v1/beers/" + originalBeer.getId())
+                        .content(super.mapToJson(beerRequest))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isBadRequest())
+                .andReturn()
+                .getResponse();
+
+        // then
+        final var expectedJson = """
+                    {
+                       "timestamp": "2025-01-23T12:07:00",
+                       "status": 400,
+                       "errors": {
+                         "beerName": ["must not be blank"],
+                         "beerStyle": ["must not be null"],
+                         "upc": ["must not be blank"],
+                         "minOnHand": ["must not be null"],
+                         "quantityToBrew": ["must not be null"],
+                         "price": ["must not be null"]
+                       }
+                     }
+                """;
+        assertNotNull(response);
+        final var responseBody = response.getContentAsString();
+        assertNotNull(responseBody);
+        final var expectedMap = super.mapFromJson(expectedJson, Map.class);
+        final var actualMap = super.mapFromJson(responseBody, Map.class);
+        assertEquals(expectedMap, actualMap);
+        verify(beerService, never()).update(any(), any());
+    }
+
+    @Test
+    void shouldDeletedBeer() throws Exception {
         // given
         final var beerId = UUID.fromString("71737f0e-11eb-4775-b8b4-ce945fdee936");
 
@@ -258,7 +389,7 @@ class BeerRestControllerTest extends AbstractMvcTest {
     }
 
     @Test
-    void deleteBeer_ShouldThrowExceptionWhenTryDeletedBeer() throws Exception {
+    void shouldThrowNotFoundWhenTryDeleteBeerButBeerByIdNotExists() throws Exception {
         // given
         final var beerId = UUID.fromString("71737f0e-11eb-4775-b8b4-ce945fdee936");
         doThrow(new BeerNotFoundException("Beer Not Found. UUID: " + beerId)).when(beerService).delete(beerId);
