@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 import pl.excellentapp.brewery.beer.domain.BeerStyleEnum;
 
 import java.math.BigDecimal;
-import java.time.OffsetDateTime;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Data
@@ -22,5 +22,5 @@ public class BeerResponse {
     private Integer quantityToBrew;
     private BigDecimal price;
     private Long version;
-    private OffsetDateTime createdDate;
+    private LocalDateTime createdDate;
 }

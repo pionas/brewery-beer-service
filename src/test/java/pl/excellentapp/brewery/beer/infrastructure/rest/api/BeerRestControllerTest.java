@@ -19,8 +19,7 @@ import pl.excellentapp.brewery.beer.infrastructure.rest.api.dto.BeersResponse;
 import pl.excellentapp.brewery.beer.infrastructure.rest.api.mapper.BeerRestMapper;
 
 import java.math.BigDecimal;
-import java.time.OffsetDateTime;
-import java.time.ZoneOffset;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -34,7 +33,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 class BeerRestControllerTest extends AbstractMvcTest {
 
-    private static final OffsetDateTime OFFSET_DATE_TIME = OffsetDateTime.of(2025, 1, 23, 12, 7, 0, 0, ZoneOffset.UTC);
+    private static final LocalDateTime LOCAL_DATE_TIME = LocalDateTime.of(2025, 1, 23, 12, 7, 0, 0);
 
     @InjectMocks
     private BeerRestController controller;
@@ -55,7 +54,7 @@ class BeerRestControllerTest extends AbstractMvcTest {
     }
 
     @Test
-    void getBeers_ShouldReturnEmptyListOfBeers() throws Exception {
+    void shouldReturnEmptyListOfBeers() throws Exception {
         // given
 
         // when
@@ -67,10 +66,10 @@ class BeerRestControllerTest extends AbstractMvcTest {
     }
 
     @Test
-    void getBeers_ShouldReturnListOfBeers() throws Exception {
+    void shouldReturnListOfBeers() throws Exception {
         // given
-        final var beer1 = createBeer(UUID.fromString("71737f0e-11eb-4775-b8b4-ce945fdee936"), "Test Beer1", BeerStyleEnum.IPA, "12345", 1, 11, BigDecimal.valueOf(11.99), 1L, OFFSET_DATE_TIME, OFFSET_DATE_TIME);
-        final var beer2 = createBeer(UUID.fromString("4a5b96de-684a-411b-9616-fddd0b06a382"), "Test Beer2", BeerStyleEnum.GOSE, "67890", 2, 12, BigDecimal.valueOf(12.99), 1L, OFFSET_DATE_TIME, OFFSET_DATE_TIME);
+        final var beer1 = createBeer(UUID.fromString("71737f0e-11eb-4775-b8b4-ce945fdee936"), "Test Beer1", BeerStyleEnum.IPA, "12345", 1, 11, BigDecimal.valueOf(11.99), 1L, LOCAL_DATE_TIME, LOCAL_DATE_TIME);
+        final var beer2 = createBeer(UUID.fromString("4a5b96de-684a-411b-9616-fddd0b06a382"), "Test Beer2", BeerStyleEnum.GOSE, "67890", 2, 12, BigDecimal.valueOf(12.99), 1L, LOCAL_DATE_TIME, LOCAL_DATE_TIME);
         when(beerService.findAll())
                 .thenReturn(List.of(beer1, beer2));
 
@@ -113,7 +112,7 @@ class BeerRestControllerTest extends AbstractMvcTest {
     }
 
     @Test
-    void getBeer_ShouldReturnNotFound() throws Exception {
+    void shouldReturnNotFoundWhenTryGetBeerById() throws Exception {
         // given
         final var beerId = UUID.fromString("71737f0e-11eb-4775-b8b4-ce945fdee936");
         // when
@@ -130,10 +129,10 @@ class BeerRestControllerTest extends AbstractMvcTest {
     }
 
     @Test
-    void getBeer_ShouldReturn() throws Exception {
+    void shouldReturnBeer() throws Exception {
         // given
         final var beerId = UUID.fromString("71737f0e-11eb-4775-b8b4-ce945fdee936");
-        final var beer = createBeer(beerId, "Test Beer1", BeerStyleEnum.IPA, "12345", 1, 11, BigDecimal.valueOf(11.99), 1L, OFFSET_DATE_TIME, OFFSET_DATE_TIME);
+        final var beer = createBeer(beerId, "Test Beer1", BeerStyleEnum.IPA, "12345", 1, 11, BigDecimal.valueOf(11.99), 1L, LOCAL_DATE_TIME, LOCAL_DATE_TIME);
         when(beerService.findById(beerId)).thenReturn(Optional.of(beer));
 
         // when
@@ -159,9 +158,9 @@ class BeerRestControllerTest extends AbstractMvcTest {
     }
 
     @Test
-    void createBeer_ShouldReturnCreatedBeer() throws Exception {
+    void shouldReturnCreatedBeer() throws Exception {
         // given
-        final var beer = createBeer(UUID.fromString("71737f0e-11eb-4775-b8b4-ce945fdee936"), "Test Beer1", BeerStyleEnum.IPA, "12345", 1, 11, BigDecimal.valueOf(11.99), 1L, OFFSET_DATE_TIME, OFFSET_DATE_TIME);
+        final var beer = createBeer(UUID.fromString("71737f0e-11eb-4775-b8b4-ce945fdee936"), "Test Beer1", BeerStyleEnum.IPA, "12345", 1, 11, BigDecimal.valueOf(11.99), 1L, LOCAL_DATE_TIME, LOCAL_DATE_TIME);
         final var beerRequest = BeerRequest.builder()
                 .beerName(beer.getBeerName())
                 .beerStyle(beer.getBeerStyle())
@@ -200,12 +199,12 @@ class BeerRestControllerTest extends AbstractMvcTest {
     }
 
     @Test
-    void updateBeer_ShouldReturnUpdatedBeer() throws Exception {
+    void shouldReturnUpdatedBeer() throws Exception {
         // given
-        final var offsetDateTime = OffsetDateTime.of(2025, 1, 23, 12, 7, 10, 0, ZoneOffset.UTC);
-        final var originalBeer = createBeer(UUID.fromString("71737f0e-11eb-4775-b8b4-ce945fdee936"), "Test Beer", BeerStyleEnum.ALE, "12345", 5, 10, BigDecimal.valueOf(10.99), 1L, OFFSET_DATE_TIME, OFFSET_DATE_TIME);
+        final var localDateTime = LocalDateTime.of(2025, 1, 23, 12, 7, 10, 0);
+        final var originalBeer = createBeer(UUID.fromString("71737f0e-11eb-4775-b8b4-ce945fdee936"), "Test Beer", BeerStyleEnum.ALE, "12345", 5, 10, BigDecimal.valueOf(10.99), 1L, LOCAL_DATE_TIME, LOCAL_DATE_TIME);
         final var updateRequest = getUpdateRequest(originalBeer);
-        final var expectedBeer = getExpectedBeer(originalBeer, offsetDateTime);
+        final var expectedBeer = getExpectedBeer(originalBeer, localDateTime);
         final var beerRequest = BeerRequest.builder()
                 .beerName(updateRequest.getBeerName())
                 .beerStyle(updateRequest.getBeerStyle())
@@ -274,7 +273,7 @@ class BeerRestControllerTest extends AbstractMvcTest {
         verify(beerService).delete(beerId);
     }
 
-    private Beer createBeer(UUID id, String beerName, BeerStyleEnum beerStyle, String upc, int minOnHand, int quantityToBrew, BigDecimal price, long version, OffsetDateTime createdDate, OffsetDateTime lastModifiedDate) {
+    private Beer createBeer(UUID id, String beerName, BeerStyleEnum beerStyle, String upc, int minOnHand, int quantityToBrew, BigDecimal price, long version, LocalDateTime createdDate, LocalDateTime lastModifiedDate) {
         return Beer.builder()
                 .id(id)
                 .beerName(beerName)
@@ -304,7 +303,7 @@ class BeerRestControllerTest extends AbstractMvcTest {
         );
     }
 
-    private Beer getExpectedBeer(Beer originalBeer, OffsetDateTime offsetDateTime) {
+    private Beer getExpectedBeer(Beer originalBeer, LocalDateTime LocalDateTime) {
         return createBeer(
                 originalBeer.getId(),
                 "Updated Beer",
@@ -315,7 +314,7 @@ class BeerRestControllerTest extends AbstractMvcTest {
                 originalBeer.getPrice(),
                 originalBeer.getVersion(),
                 originalBeer.getCreatedDate(),
-                offsetDateTime
+                LocalDateTime
         );
     }
 }

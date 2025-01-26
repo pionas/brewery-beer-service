@@ -13,8 +13,7 @@ import pl.excellentapp.brewery.beer.infrastructure.rest.api.dto.BeerResponse;
 import pl.excellentapp.brewery.beer.infrastructure.rest.api.dto.BeersResponse;
 
 import java.math.BigDecimal;
-import java.time.OffsetDateTime;
-import java.time.ZoneOffset;
+import java.time.LocalDateTime;
 import java.util.Map;
 import java.util.UUID;
 
@@ -83,7 +82,7 @@ class BeerRestControllerIT extends AbstractIT {
         assertEquals(50, responseBody.getQuantityToBrew());
         assertEquals(BigDecimal.valueOf(8.49), responseBody.getPrice());
         assertEquals(1, responseBody.getVersion());
-        assertEquals(OffsetDateTime.of(2025, 1, 24, 13, 0, 0, 0, ZoneOffset.UTC), responseBody.getCreatedDate());
+        assertEquals(LocalDateTime.of(2025, 1, 24, 13, 0, 0, 0), responseBody.getCreatedDate());
     }
 
     @Test

@@ -6,7 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
-import java.time.OffsetDateTime;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Data
@@ -23,6 +23,6 @@ public class Beer {
     private Integer quantityToBrew;
     private BigDecimal price;
     private Long version;
-    private OffsetDateTime createdDate;
-    private OffsetDateTime lastModifiedDate;
+    private LocalDateTime createdDate;
+    private LocalDateTime lastModifiedDate;
 }
