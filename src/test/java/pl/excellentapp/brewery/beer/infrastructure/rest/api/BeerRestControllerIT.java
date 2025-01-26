@@ -8,7 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.jdbc.JdbcTestUtils;
-import pl.excellentapp.brewery.beer.domain.BeerStyleEnum;
+import pl.excellentapp.brewery.beer.domain.beer.BeerStyleEnum;
 import pl.excellentapp.brewery.beer.infrastructure.rest.api.dto.BeerResponse;
 import pl.excellentapp.brewery.beer.infrastructure.rest.api.dto.BeersResponse;
 

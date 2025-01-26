@@ -1,7 +1,7 @@
 package pl.excellentapp.brewery.beer.infrastructure.persistence.jpa;
 
 import org.mapstruct.Mapper;
-import pl.excellentapp.brewery.beer.domain.Beer;
+import pl.excellentapp.brewery.beer.domain.beer.Beer;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;

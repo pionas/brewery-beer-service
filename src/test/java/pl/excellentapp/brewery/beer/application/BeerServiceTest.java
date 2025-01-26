@@ -2,9 +2,9 @@ package pl.excellentapp.brewery.beer.application;
 
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
-import pl.excellentapp.brewery.beer.domain.Beer;
-import pl.excellentapp.brewery.beer.domain.BeerRepository;
-import pl.excellentapp.brewery.beer.domain.BeerStyleEnum;
+import pl.excellentapp.brewery.beer.domain.beer.Beer;
+import pl.excellentapp.brewery.beer.domain.beer.BeerRepository;
+import pl.excellentapp.brewery.beer.domain.beer.BeerStyleEnum;
 import pl.excellentapp.brewery.beer.domain.exception.BeerNotFoundException;
 import pl.excellentapp.brewery.beer.utils.DateTimeProvider;
 

@@ -1,6 +1,6 @@
 package pl.excellentapp.brewery.beer.application;
 
-import pl.excellentapp.brewery.beer.domain.Beer;
+import pl.excellentapp.brewery.beer.domain.beer.Beer;
 
 import java.util.List;
 import java.util.Optional;

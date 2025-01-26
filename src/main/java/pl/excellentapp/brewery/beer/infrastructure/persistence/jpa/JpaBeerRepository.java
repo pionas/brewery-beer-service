@@ -2,8 +2,8 @@ package pl.excellentapp.brewery.beer.infrastructure.persistence.jpa;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Repository;
-import pl.excellentapp.brewery.beer.domain.Beer;
-import pl.excellentapp.brewery.beer.domain.BeerRepository;
+import pl.excellentapp.brewery.beer.domain.beer.Beer;
+import pl.excellentapp.brewery.beer.domain.beer.BeerRepository;
 
 import java.util.List;
 import java.util.Optional;

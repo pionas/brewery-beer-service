@@ -8,7 +8,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import pl.excellentapp.brewery.beer.domain.BeerStyleEnum;
+import pl.excellentapp.brewery.beer.domain.beer.BeerStyleEnum;
 
 import java.math.BigDecimal;
 

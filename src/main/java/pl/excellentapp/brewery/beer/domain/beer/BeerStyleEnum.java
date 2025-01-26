@@ -1,4 +1,4 @@
-package pl.excellentapp.brewery.beer.domain;
+package pl.excellentapp.brewery.beer.domain.beer;
 
 public enum BeerStyleEnum {
 

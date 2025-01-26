@@ -1,7 +1,7 @@
 package pl.excellentapp.brewery.beer.infrastructure.rest.api.mapper;
 
 import org.mapstruct.Mapper;
-import pl.excellentapp.brewery.beer.domain.Beer;
+import pl.excellentapp.brewery.beer.domain.beer.Beer;
 import pl.excellentapp.brewery.beer.infrastructure.rest.api.dto.BeerRequest;
 import pl.excellentapp.brewery.beer.infrastructure.rest.api.dto.BeerResponse;
 import pl.excellentapp.brewery.beer.infrastructure.rest.api.dto.BeersResponse;
