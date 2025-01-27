@@ -27,5 +27,10 @@ queue:
     brewing: beer-brewing
 
 scheduler:
+  lock-at-least-for: PT5M
   cron:
     inventory-checking: "0 0 */1 * * *"
+
+rest:
+  inventory:
+    service: "http://localhost:8081/api/v1/inventories/"

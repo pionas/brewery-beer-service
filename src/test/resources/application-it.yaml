@@ -3,3 +3,13 @@ spring:
     name: brewery-beer-service
   datasource:
     url: jdbc:h2:mem:brewery-beer-service-test;MODE=MYSQL
+  scheduling:
+    enabled: false
+
+queue:
+  beer:
+    brewing: beer-brewing
+
+rest:
+  inventory:
+    service: "http://localhost:8081/api/v1/inventories/"

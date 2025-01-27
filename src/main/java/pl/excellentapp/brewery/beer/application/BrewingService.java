@@ -1,6 +1,7 @@
 package pl.excellentapp.brewery.beer.application;
 
 import lombok.extern.slf4j.Slf4j;
+import net.javacrumbs.shedlock.spring.annotation.SchedulerLock;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -24,7 +25,7 @@ class BrewingService {
     public BrewingService(BeerRepository beerRepository,
                           BeerInventoryService beerInventoryService,
                           JmsTemplate jmsTemplate,
-                          @Value("queue.beer.brewing") String brewingQueueName) {
+                          @Value("${queue.beer.brewing}") String brewingQueueName) {
         this.beerRepository = beerRepository;
         this.beerInventoryService = beerInventoryService;
         this.jmsTemplate = jmsTemplate;
@@ -32,6 +33,7 @@ class BrewingService {
     }
 
     @Scheduled(cron = "${scheduler.cron.inventory-checking}")
+    @SchedulerLock(name = "TaskScheduler_checkForLowInventory", lockAtLeastFor = "${scheduler.lock-at-least-for}")
     public void checkForLowInventory() {
         List<Beer> beers = beerRepository.findAll();
         beers.forEach(beer -> {
@@ -44,6 +46,5 @@ class BrewingService {
                 jmsTemplate.convertAndSend(brewingQueueName, BrewBeerEvent.builder().beer(beer).build());
             }
         });
-
     }
 }
