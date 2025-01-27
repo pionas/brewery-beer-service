@@ -14,7 +14,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 class TaskConfiguration {
 
     @Bean
-    TaskExecutor taskExecutor(@Value("spring.application.name") String applicationName) {
+    TaskExecutor taskExecutor(@Value("${spring.application.name}") String applicationName) {
         return new SimpleAsyncTaskExecutor(applicationName.concat("-"));
     }
 }
