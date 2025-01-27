@@ -21,3 +21,11 @@ http-client:
   socket-timeout: PT5S
   idle-timeout: PT60S
   keep-alive-time: PT5S
+
+queue:
+  beer:
+    brewing: beer-brewing
+
+scheduler:
+  cron:
+    inventory-checking: "0 0 */1 * * *"
