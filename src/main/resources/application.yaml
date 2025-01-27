@@ -14,3 +14,10 @@ spring:
   artemis:
     user: artemis-user
     password: artemis-password
+
+http-client:
+  max-total: 50
+  max-per-route: 20
+  socket-timeout: PT5S
+  idle-timeout: PT60S
+  keep-alive-time: PT5S
