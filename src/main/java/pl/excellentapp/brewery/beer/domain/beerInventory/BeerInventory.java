@@ -13,4 +13,8 @@ public class BeerInventory {
 
     private UUID id;
     private int availableStock;
+
+    public static BeerInventory empty(UUID beerId) {
+        return new BeerInventory(beerId, 0);
+    }
 }
