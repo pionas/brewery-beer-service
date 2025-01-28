@@ -1,5 +1,6 @@
 package pl.excellentapp.brewery.beer.application.brewing;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.jms.annotation.JmsListener;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Service;
@@ -10,6 +11,7 @@ import pl.excellentapp.brewery.beer.domain.exception.BeerNotFoundException;
 import java.util.Random;
 
 @Service
+@Slf4j
 class BrewingListener {
 
     private static final Random BEER_STOCK_RANDOM_GENERATOR = new Random();
@@ -29,6 +31,7 @@ class BrewingListener {
         beer.addQuantityToBrew(stock);
         beerRepository.save(beer);
         brewingEventPublisher.publishBrewingEvent(beer, stock);
+        log.debug("Brewed beer {}: {}", beer.getId(), stock);
     }
 
 }
