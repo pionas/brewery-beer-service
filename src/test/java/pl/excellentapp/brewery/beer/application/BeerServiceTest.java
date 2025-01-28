@@ -2,6 +2,8 @@ package pl.excellentapp.brewery.beer.application;
 
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
+import pl.excellentapp.brewery.beer.application.beer.BeerService;
+import pl.excellentapp.brewery.beer.application.beer.BeerServiceImpl;
 import pl.excellentapp.brewery.beer.domain.beer.Beer;
 import pl.excellentapp.brewery.beer.domain.beer.BeerRepository;
 import pl.excellentapp.brewery.beer.domain.beer.BeerStyleEnum;

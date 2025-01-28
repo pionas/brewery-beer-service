@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import pl.excellentapp.brewery.beer.application.BeerService;
+import pl.excellentapp.brewery.beer.application.beer.BeerService;
 import pl.excellentapp.brewery.beer.infrastructure.rest.api.dto.BeerRequest;
 import pl.excellentapp.brewery.beer.infrastructure.rest.api.dto.BeerResponse;
 import pl.excellentapp.brewery.beer.infrastructure.rest.api.dto.BeersResponse;

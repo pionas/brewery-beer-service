@@ -1,4 +1,4 @@
-package pl.excellentapp.brewery.beer.application;
+package pl.excellentapp.brewery.beer.application.brewing;
 
 import lombok.extern.slf4j.Slf4j;
 import net.javacrumbs.shedlock.spring.annotation.SchedulerLock;

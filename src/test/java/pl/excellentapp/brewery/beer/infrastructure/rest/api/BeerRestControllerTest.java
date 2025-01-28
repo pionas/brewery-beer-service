@@ -10,7 +10,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import pl.excellentapp.brewery.beer.application.BeerService;
+import pl.excellentapp.brewery.beer.application.beer.BeerService;
 import pl.excellentapp.brewery.beer.domain.beer.Beer;
 import pl.excellentapp.brewery.beer.domain.beer.BeerStyleEnum;
 import pl.excellentapp.brewery.beer.domain.exception.BeerNotFoundException;

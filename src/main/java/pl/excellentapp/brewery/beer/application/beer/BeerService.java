@@ -1,4 +1,4 @@
-package pl.excellentapp.brewery.beer.application;
+package pl.excellentapp.brewery.beer.application.beer;
 
 import pl.excellentapp.brewery.beer.domain.beer.Beer;
 

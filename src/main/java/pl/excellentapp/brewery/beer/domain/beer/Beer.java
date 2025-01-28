@@ -19,10 +19,14 @@ public class Beer {
     private String beerName;
     private BeerStyleEnum beerStyle;
     private String upc;
-    private Integer minOnHand;
-    private Integer quantityToBrew;
+    private int minOnHand;
+    private int quantityToBrew;
     private BigDecimal price;
     private Long version;
     private LocalDateTime createdDate;
     private LocalDateTime lastModifiedDate;
+
+    public void addQuantityToBrew(int stock) {
+        this.quantityToBrew += stock;
+    }
 }

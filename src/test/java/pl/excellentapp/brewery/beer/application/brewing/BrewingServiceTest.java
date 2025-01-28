@@ -1,4 +1,4 @@
-package pl.excellentapp.brewery.beer.application;
+package pl.excellentapp.brewery.beer.application.brewing;
 
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;

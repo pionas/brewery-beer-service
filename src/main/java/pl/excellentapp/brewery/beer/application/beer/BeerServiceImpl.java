@@ -1,4 +1,4 @@
-package pl.excellentapp.brewery.beer.application;
+package pl.excellentapp.brewery.beer.application.beer;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;

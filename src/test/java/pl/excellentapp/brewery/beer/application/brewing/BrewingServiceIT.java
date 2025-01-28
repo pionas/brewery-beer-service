@@ -1,4 +1,4 @@
-package pl.excellentapp.brewery.beer.application;
+package pl.excellentapp.brewery.beer.application.brewing;
 
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.context.jdbc.Sql;
-import pl.excellentapp.brewery.beer.domain.beer.Beer;
 import pl.excellentapp.brewery.beer.domain.beerInventory.BeerInventory;
 import pl.excellentapp.brewery.beer.domain.beerInventory.BeerInventoryService;
 import pl.excellentapp.brewery.beer.domain.event.BrewBeerEvent;
