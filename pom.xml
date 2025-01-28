@@ -64,6 +64,10 @@
             <artifactId>shedlock-spring</artifactId>
             <version>${shedlock-spring.version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.liquibase</groupId>
+            <artifactId>liquibase-core</artifactId>
+        </dependency>
         <!-- external test -->
         <dependency>
             <groupId>org.springframework.boot</groupId>

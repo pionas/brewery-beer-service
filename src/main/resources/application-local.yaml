@@ -11,11 +11,12 @@ spring:
       enabled: true
   jpa:
     database-platform: org.hibernate.dialect.H2Dialect
+    show-sql: true
   artemis:
     user: artemis-user
     password: artemis-password
   liquibase:
-    change-log: classpath:db/changelog/dbchangelog-prod.xml
+    change-log: classpath:db/changelog/dbchangelog-local.xml
 
 http-client:
   max-total: 50

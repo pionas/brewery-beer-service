@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="2-insert-beers-data" author="author_name">
+        <insert tableName="beers">
+            <column name="id" value="1b4e28ba-2fa1-4d3b-a3f5-ef19b5a7633b"/>
+            <column name="beer_name" value="Classic Lager"/>
+            <column name="beer_style" value="LAGER"/>
+            <column name="upc" value="1234567890"/>
+            <column name="min_on_hand" value="10"/>
+            <column name="quantity_to_brew" value="50"/>
+            <column name="price" value="8.49"/>
+            <column name="version" value="1"/>
+            <column name="created_date" value="2025-01-24 14:00:00.000"/>
+            <column name="last_modified_date" value="2025-01-24 14:00:00.000"/>
+        </insert>
+        <insert tableName="beers">
+            <column name="id" value="2c4f2ed6-bd1d-4f9d-82c6-6b975b5cf5b3"/>
+            <column name="beer_name" value="Golden Pilsner"/>
+            <column name="beer_style" value="PILSNER"/>
+            <column name="upc" value="2345678901"/>
+            <column name="min_on_hand" value="12"/>
+            <column name="quantity_to_brew" value="40"/>
+            <column name="price" value="9.99"/>
+            <column name="version" value="1"/>
+            <column name="created_date" value="2025-01-24 14:00:01.000"/>
+            <column name="last_modified_date" value="2025-01-24 14:00:01.000"/>
+        </insert>
+        <insert tableName="beers">
+            <column name="id" value="3a8e0e2f-587d-4b3c-b1c9-27f5d6c3627a"/>
+            <column name="beer_name" value="Dark Stout"/>
+            <column name="beer_style" value="STOUT"/>
+            <column name="upc" value="3456789012"/>
+            <column name="min_on_hand" value="8"/>
+            <column name="quantity_to_brew" value="30"/>
+            <column name="price" value="11.99"/>
+            <column name="version" value="1"/>
+            <column name="created_date" value="2025-01-24 14:00:02.000"/>
+            <column name="last_modified_date" value="2025-01-24 14:00:02.000"/>
+        </insert>
+        <insert tableName="beers">
+            <column name="id" value="4c9e7a3b-84e7-4f8e-95e2-cd2f1d56e6b7"/>
+            <column name="beer_name" value="Salty Gose"/>
+            <column name="beer_style" value="GOSE"/>
+            <column name="upc" value="4567890123"/>
+            <column name="min_on_hand" value="5"/>
+            <column name="quantity_to_brew" value="25"/>
+            <column name="price" value="10.49"/>
+            <column name="version" value="1"/>
+            <column name="created_date" value="2025-01-24 14:00:03.000"/>
+            <column name="last_modified_date" value="2025-01-24 14:00:03.000"/>
+        </insert>
+        <insert tableName="beers">
+            <column name="id" value="5d3f8e7c-9f2b-42e1-908d-cf3d1e678e9b"/>
+            <column name="beer_name" value="Robust Porter"/>
+            <column name="beer_style" value="PORTER"/>
+            <column name="upc" value="5678901234"/>
+            <column name="min_on_hand" value="6"/>
+            <column name="quantity_to_brew" value="20"/>
+            <column name="price" value="12.49"/>
+            <column name="version" value="1"/>
+            <column name="created_date" value="2025-01-24 14:00:04.000"/>
+            <column name="last_modified_date" value="2025-01-24 14:00:04.000"/>
+        </insert>
+        <insert tableName="beers">
+            <column name="id" value="6e8f9d4c-7c8a-45d1-8b4c-ed3f5a7b6e9d"/>
+            <column name="beer_name" value="Amber Ale"/>
+            <column name="beer_style" value="ALE"/>
+            <column name="upc" value="6789012345"/>
+            <column name="min_on_hand" value="9"/>
+            <column name="quantity_to_brew" value="35"/>
+            <column name="price" value="10.99"/>
+            <column name="version" value="1"/>
+            <column name="created_date" value="2025-01-24 14:00:05.000"/>
+            <column name="last_modified_date" value="2025-01-24 14:00:05.000"/>
+        </insert>
+        <insert tableName="beers">
+            <column name="id" value="7f1b3c2d-8e9f-41b2-94c8-ef3d7a6b5c9f"/>
+            <column name="beer_name" value="Hefeweizen Wheat"/>
+            <column name="beer_style" value="WHEAT"/>
+            <column name="upc" value="7890123456"/>
+            <column name="min_on_hand" value="7"/>
+            <column name="quantity_to_brew" value="28"/>
+            <column name="price" value="9.49"/>
+            <column name="version" value="1"/>
+            <column name="created_date" value="2025-01-24 14:00:06.000"/>
+            <column name="last_modified_date" value="2025-01-24 14:00:06.000"/>
+        </insert>
+        <insert tableName="beers">
+            <column name="id" value="8a2d4e6f-9b3c-4e2f-b7d1-2c3f5a8e7b6d"/>
+            <column name="beer_name" value="Hoppy IPA"/>
+            <column name="beer_style" value="IPA"/>
+            <column name="upc" value="8901234567"/>
+            <column name="min_on_hand" value="8"/>
+            <column name="quantity_to_brew" value="32"/>
+            <column name="price" value="11.79"/>
+            <column name="version" value="1"/>
+            <column name="created_date" value="2025-01-24 14:00:07.000"/>
+            <column name="last_modified_date" value="2025-01-24 14:00:07.000"/>
+        </insert>
+        <insert tableName="beers">
+            <column name="id" value="9c3e5d7a-b8f2-41c3-82e9-f2b1d6e5c4f7"/>
+            <column name="beer_name" value="Crisp Pale Ale"/>
+            <column name="beer_style" value="PALE_ALE"/>
+            <column name="upc" value="9012345678"/>
+            <column name="min_on_hand" value="10"/>
+            <column name="quantity_to_brew" value="37"/>
+            <column name="price" value="10.29"/>
+            <column name="version" value="1"/>
+            <column name="created_date" value="2025-01-24 14:00:08.000"/>
+            <column name="last_modified_date" value="2025-01-24 14:00:08.000"/>
+        </insert>
+        <insert tableName="beers">
+            <column name="id" value="0d1e2f3b-5a7c-4d1f-8e9b-2f3d6a8b7c5f"/>
+            <column name="beer_name" value="Rustic Saison"/>
+            <column name="beer_style" value="SAISON"/>
+            <column name="upc" value="0123456789"/>
+            <column name="min_on_hand" value="4"/>
+            <column name="quantity_to_brew" value="18"/>
+            <column name="price" value="13.99"/>
+            <column name="version" value="1"/>
+            <column name="created_date" value="2025-01-24 14:00:09.000"/>
+            <column name="last_modified_date" value="2025-01-24 14:00:09.000"/>
+        </insert>
+
+
+    </changeSet>
+</databaseChangeLog>

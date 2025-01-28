@@ -5,6 +5,8 @@ spring:
     url: jdbc:h2:mem:brewery-beer-service-test;MODE=MYSQL
   scheduling:
     enabled: false
+  liquibase:
+    change-log: classpath:db/changelog/dbchangelog-prod.xml
 
 queue:
   beer:

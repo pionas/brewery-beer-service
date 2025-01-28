@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="1-create-beers-table" author="Adrian Pionka">
+        <createTable tableName="beers">
+            <column name="id" type="UUID">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="min_on_hand" type="INT"/>
+            <column name="price" type="DECIMAL(8,2)"/>
+            <column name="quantity_to_brew" type="INT"/>
+            <column name="created_date" type="TIMESTAMP(6)"/>
+            <column name="last_modified_date" type="TIMESTAMP(6)"/>
+            <column name="version" type="BIGINT"/>
+            <column name="beer_name" type="VARCHAR(255)"/>
+            <column name="upc" type="VARCHAR(255)"/>
+            <column name="beer_style"
+                    type="ENUM('ALE', 'GOSE', 'IPA', 'LAGER', 'PALE_ALE', 'PILSNER', 'PORTER', 'SAISON', 'STOUT', 'WHEAT')"/>
+        </createTable>
+    </changeSet>
+</databaseChangeLog>
