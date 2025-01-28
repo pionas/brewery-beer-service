@@ -25,6 +25,8 @@ http-client:
 queue:
   beer:
     brewing: beer-brewing
+  inventory:
+    add-stock: beer-inventory-add-stock
 
 scheduler:
   lock-at-least-for: PT5M
