@@ -1,6 +1,6 @@
 package pl.excellentapp.brewery.beer.domain.event;
 
-import pl.excellentapp.brewery.beer.application.brewing.BeerInventoryEvent;
+import pl.excellentapp.brewery.beer.events.BeerInventoryEvent;
 
 public interface BrewingEventChannel {
 
