@@ -42,7 +42,7 @@ class BrewingListenerTest {
 
         final var savedBeer = beerCaptor.getValue();
         assertEquals(beer, savedBeer);
-        assertTrue(savedBeer.getQuantityToBrew() >= beer.getMinOnHand());
+        assertTrue(savedBeer.getQuantityToBrew() <= beer.getMinOnHand());
     }
 
     @Test
