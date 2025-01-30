@@ -27,7 +27,7 @@ class BrewingListener {
     public void brewing(@Payload BrewBeerEvent brewBeerEvent) {
         final var beer = beerRepository.findById(brewBeerEvent.getBeerId())
                 .orElseThrow(() -> new BeerNotFoundException("Beer Not Found. UUID: " + brewBeerEvent.getBeerId()));
-        final var stock = BEER_STOCK_RANDOM_GENERATOR.nextInt(300) + beer.getMinOnHand();
+        final var stock = BEER_STOCK_RANDOM_GENERATOR.nextInt(beer.getMinOnHand()) + 1;
         beer.addQuantityToBrew(stock);
         beerRepository.save(beer);
         brewingEventPublisher.publishBrewingEvent(beer, stock);
