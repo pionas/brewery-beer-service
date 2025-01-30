@@ -1,12 +1,18 @@
 package pl.excellentapp.brewery.beer.domain.event;
 
-import lombok.Getter;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 import pl.excellentapp.brewery.beer.domain.beer.Beer;
 
+import java.io.Serializable;
+
+@Data
+@AllArgsConstructor
 @SuperBuilder
-@Getter
-abstract public class BeerEvent {
+@NoArgsConstructor
+public class BeerEvent implements Serializable {
 
     private Beer beer;
 }
