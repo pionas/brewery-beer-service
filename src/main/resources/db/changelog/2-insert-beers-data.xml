@@ -12,7 +12,7 @@
             <column name="beer_style" value="LAGER"/>
             <column name="upc" value="1234567890"/>
             <column name="min_on_hand" value="10"/>
-            <column name="quantity_to_brew" value="50"/>
+            <column name="quantity_to_brew" value="0"/>
             <column name="price" value="8.49"/>
             <column name="version" value="1"/>
             <column name="created_date" value="2025-01-24 14:00:00.000"/>
@@ -24,7 +24,7 @@
             <column name="beer_style" value="PILSNER"/>
             <column name="upc" value="2345678901"/>
             <column name="min_on_hand" value="12"/>
-            <column name="quantity_to_brew" value="40"/>
+            <column name="quantity_to_brew" value="0"/>
             <column name="price" value="9.99"/>
             <column name="version" value="1"/>
             <column name="created_date" value="2025-01-24 14:00:01.000"/>
@@ -36,7 +36,7 @@
             <column name="beer_style" value="STOUT"/>
             <column name="upc" value="3456789012"/>
             <column name="min_on_hand" value="8"/>
-            <column name="quantity_to_brew" value="30"/>
+            <column name="quantity_to_brew" value="0"/>
             <column name="price" value="11.99"/>
             <column name="version" value="1"/>
             <column name="created_date" value="2025-01-24 14:00:02.000"/>
@@ -48,7 +48,7 @@
             <column name="beer_style" value="GOSE"/>
             <column name="upc" value="4567890123"/>
             <column name="min_on_hand" value="5"/>
-            <column name="quantity_to_brew" value="25"/>
+            <column name="quantity_to_brew" value="0"/>
             <column name="price" value="10.49"/>
             <column name="version" value="1"/>
             <column name="created_date" value="2025-01-24 14:00:03.000"/>
@@ -60,7 +60,7 @@
             <column name="beer_style" value="PORTER"/>
             <column name="upc" value="5678901234"/>
             <column name="min_on_hand" value="6"/>
-            <column name="quantity_to_brew" value="20"/>
+            <column name="quantity_to_brew" value="0"/>
             <column name="price" value="12.49"/>
             <column name="version" value="1"/>
             <column name="created_date" value="2025-01-24 14:00:04.000"/>
@@ -72,7 +72,7 @@
             <column name="beer_style" value="ALE"/>
             <column name="upc" value="6789012345"/>
             <column name="min_on_hand" value="9"/>
-            <column name="quantity_to_brew" value="35"/>
+            <column name="quantity_to_brew" value="0"/>
             <column name="price" value="10.99"/>
             <column name="version" value="1"/>
             <column name="created_date" value="2025-01-24 14:00:05.000"/>
@@ -84,7 +84,7 @@
             <column name="beer_style" value="WHEAT"/>
             <column name="upc" value="7890123456"/>
             <column name="min_on_hand" value="7"/>
-            <column name="quantity_to_brew" value="28"/>
+            <column name="quantity_to_brew" value="0"/>
             <column name="price" value="9.49"/>
             <column name="version" value="1"/>
             <column name="created_date" value="2025-01-24 14:00:06.000"/>
@@ -96,7 +96,7 @@
             <column name="beer_style" value="IPA"/>
             <column name="upc" value="8901234567"/>
             <column name="min_on_hand" value="8"/>
-            <column name="quantity_to_brew" value="32"/>
+            <column name="quantity_to_brew" value="0"/>
             <column name="price" value="11.79"/>
             <column name="version" value="1"/>
             <column name="created_date" value="2025-01-24 14:00:07.000"/>
@@ -108,7 +108,7 @@
             <column name="beer_style" value="PALE_ALE"/>
             <column name="upc" value="9012345678"/>
             <column name="min_on_hand" value="10"/>
-            <column name="quantity_to_brew" value="37"/>
+            <column name="quantity_to_brew" value="0"/>
             <column name="price" value="10.29"/>
             <column name="version" value="1"/>
             <column name="created_date" value="2025-01-24 14:00:08.000"/>
@@ -120,7 +120,7 @@
             <column name="beer_style" value="SAISON"/>
             <column name="upc" value="0123456789"/>
             <column name="min_on_hand" value="4"/>
-            <column name="quantity_to_brew" value="18"/>
+            <column name="quantity_to_brew" value="0"/>
             <column name="price" value="13.99"/>
             <column name="version" value="1"/>
             <column name="created_date" value="2025-01-24 14:00:09.000"/>
