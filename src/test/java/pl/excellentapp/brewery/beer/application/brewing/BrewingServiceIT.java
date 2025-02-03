@@ -9,7 +9,7 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.context.jdbc.Sql;
 import pl.excellentapp.brewery.beer.domain.beerInventory.BeerInventory;
 import pl.excellentapp.brewery.beer.domain.beerInventory.BeerInventoryService;
-import pl.excellentapp.brewery.beer.domain.event.BrewBeerEvent;
+import pl.excellentapp.brewery.model.events.BrewBeerEvent;
 import pl.excellentapp.brewery.beer.infrastructure.rest.api.AbstractIT;
 
 import java.util.UUID;

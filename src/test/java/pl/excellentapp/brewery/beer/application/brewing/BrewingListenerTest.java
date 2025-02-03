@@ -5,7 +5,7 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
 import pl.excellentapp.brewery.beer.domain.beer.Beer;
 import pl.excellentapp.brewery.beer.domain.beer.BeerRepository;
-import pl.excellentapp.brewery.beer.domain.event.BrewBeerEvent;
+import pl.excellentapp.brewery.model.events.BrewBeerEvent;
 import pl.excellentapp.brewery.beer.domain.exception.BeerNotFoundException;
 
 import java.util.Optional;

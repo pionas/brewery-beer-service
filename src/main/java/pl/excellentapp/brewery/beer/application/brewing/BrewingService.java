@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import pl.excellentapp.brewery.beer.domain.beer.Beer;
 import pl.excellentapp.brewery.beer.domain.beer.BeerRepository;
 import pl.excellentapp.brewery.beer.domain.beerInventory.BeerInventoryService;
-import pl.excellentapp.brewery.beer.domain.event.BrewBeerEvent;
+import pl.excellentapp.brewery.model.events.BrewBeerEvent;
 
 import java.util.List;
 

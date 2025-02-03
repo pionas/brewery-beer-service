@@ -1,4 +1,4 @@
-package pl.excellentapp.brewery.beer.domain.event;
+package pl.excellentapp.brewery.model.events;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.stereotype.Component;
 import pl.excellentapp.brewery.beer.domain.event.BrewingEventChannel;
-import pl.excellentapp.brewery.beer.events.BeerInventoryEvent;
+import pl.excellentapp.brewery.model.events.BeerInventoryEvent;
 
 @Component
 @Slf4j

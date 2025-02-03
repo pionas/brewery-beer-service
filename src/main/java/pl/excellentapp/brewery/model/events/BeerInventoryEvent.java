@@ -1,4 +1,4 @@
-package pl.excellentapp.brewery.beer.events;
+package pl.excellentapp.brewery.model.events;
 
 import lombok.Builder;
 import lombok.Getter;
