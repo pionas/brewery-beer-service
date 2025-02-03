@@ -17,7 +17,6 @@ import pl.excellentapp.brewery.beer.application.beer.BeerService;
 import pl.excellentapp.brewery.beer.domain.beer.Beer;
 import pl.excellentapp.brewery.beer.domain.exception.BeerNotFoundException;
 import pl.excellentapp.brewery.beer.infrastructure.rest.api.dto.BeerRequest;
-import pl.excellentapp.brewery.beer.infrastructure.rest.api.dto.BeersResponse;
 import pl.excellentapp.brewery.beer.infrastructure.rest.api.mapper.BeerRestMapper;
 import pl.excellentapp.brewery.beer.infrastructure.rest.handler.GlobalExceptionHandler;
 import pl.excellentapp.brewery.beer.utils.DateTimeProvider;

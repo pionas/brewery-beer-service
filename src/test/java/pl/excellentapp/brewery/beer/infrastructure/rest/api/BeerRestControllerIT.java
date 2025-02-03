@@ -8,7 +8,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.jdbc.JdbcTestUtils;
-import pl.excellentapp.brewery.beer.infrastructure.rest.api.dto.BeersResponse;
 import pl.excellentapp.brewery.model.BeerDto;
 import pl.excellentapp.brewery.model.BeerPagedList;
 import pl.excellentapp.brewery.model.BeerStyle;
