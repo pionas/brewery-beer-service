@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
-import pl.excellentapp.brewery.beer.domain.beer.BeerStyleEnum;
+import pl.excellentapp.brewery.model.BeerStyle;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
@@ -32,14 +32,14 @@ public class BeerEntity {
     private String beerName;
 
     @Enumerated(EnumType.STRING)
-    private BeerStyleEnum beerStyle;
+    private BeerStyle beerStyle;
     private String upc;
     private Integer minOnHand;
     private Integer quantityToBrew;
     private BigDecimal price;
 
     @Version
-    private Long version;
+    private Integer version;
 
     @CreationTimestamp
     @Column(updatable = false)

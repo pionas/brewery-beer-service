@@ -4,7 +4,8 @@ import org.mapstruct.Mapper;
 import pl.excellentapp.brewery.beer.domain.beer.Beer;
 
 import java.sql.Timestamp;
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
 import java.util.List;
 
 @Mapper
@@ -16,11 +17,19 @@ interface BeerMapper {
 
     BeerEntity map(Beer beer);
 
-    default Timestamp map(LocalDateTime value) {
-        return value == null ? null : Timestamp.valueOf(value);
+    default OffsetDateTime map(Timestamp ts) {
+        if (ts == null) {
+            return null;
+        }
+        return OffsetDateTime.of(ts.toLocalDateTime().getYear(), ts.toLocalDateTime().getMonthValue(),
+                ts.toLocalDateTime().getDayOfMonth(), ts.toLocalDateTime().getHour(), ts.toLocalDateTime().getMinute(),
+                ts.toLocalDateTime().getSecond(), ts.toLocalDateTime().getNano(), ZoneOffset.UTC);
     }
 
-    default LocalDateTime map(Timestamp value) {
-        return value == null ? null : value.toLocalDateTime();
+    default Timestamp map(OffsetDateTime offsetDateTime) {
+        if (offsetDateTime == null) {
+            return null;
+        }
+        return Timestamp.valueOf(offsetDateTime.atZoneSameInstant(ZoneOffset.UTC).toLocalDateTime());
     }
 }

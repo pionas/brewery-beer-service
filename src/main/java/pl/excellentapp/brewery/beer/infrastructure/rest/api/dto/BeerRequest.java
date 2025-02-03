@@ -8,7 +8,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import pl.excellentapp.brewery.beer.domain.beer.BeerStyleEnum;
+import pl.excellentapp.brewery.model.BeerStyle;
 
 import java.math.BigDecimal;
 
@@ -22,7 +22,7 @@ public class BeerRequest {
     private String beerName;
 
     @NotNull
-    private BeerStyleEnum beerStyle;
+    private BeerStyle beerStyle;
 
     @NotBlank
     private String upc;

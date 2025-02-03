@@ -6,23 +6,27 @@ import org.mapstruct.factory.Mappers;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Spy;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.util.Pair;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import pl.excellentapp.brewery.beer.application.beer.BeerPage;
 import pl.excellentapp.brewery.beer.application.beer.BeerService;
 import pl.excellentapp.brewery.beer.domain.beer.Beer;
-import pl.excellentapp.brewery.beer.domain.beer.BeerStyleEnum;
 import pl.excellentapp.brewery.beer.domain.exception.BeerNotFoundException;
 import pl.excellentapp.brewery.beer.infrastructure.rest.api.dto.BeerRequest;
-import pl.excellentapp.brewery.beer.infrastructure.rest.api.dto.BeerResponse;
 import pl.excellentapp.brewery.beer.infrastructure.rest.api.dto.BeersResponse;
 import pl.excellentapp.brewery.beer.infrastructure.rest.api.mapper.BeerRestMapper;
 import pl.excellentapp.brewery.beer.infrastructure.rest.handler.GlobalExceptionHandler;
 import pl.excellentapp.brewery.beer.utils.DateTimeProvider;
+import pl.excellentapp.brewery.model.BeerDto;
+import pl.excellentapp.brewery.model.BeerStyle;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -37,7 +41,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 class BeerRestControllerTest extends AbstractMvcTest {
 
-    private static final LocalDateTime LOCAL_DATE_TIME = LocalDateTime.of(2025, 1, 23, 12, 7, 0, 0);
+    private static final OffsetDateTime OFFSET_DATE_TIME = OffsetDateTime.of(2025, 1, 23, 12, 7, 0, 0, ZoneOffset.UTC);
 
     @InjectMocks
     private BeerRestController controller;
@@ -71,16 +75,20 @@ class BeerRestControllerTest extends AbstractMvcTest {
                 .andExpect(status().isOk());
 
         // then
-        verify(beerService).findAll();
+        verify(beerService).list(any(), any(), any());
     }
 
     @Test
     void shouldReturnListOfBeers() throws Exception {
         // given
-        final var beer1 = createBeer(UUID.fromString("71737f0e-11eb-4775-b8b4-ce945fdee936"), "Test Beer1", BeerStyleEnum.IPA, "12345", 1, 11, BigDecimal.valueOf(11.99), 1L, LOCAL_DATE_TIME, LOCAL_DATE_TIME);
-        final var beer2 = createBeer(UUID.fromString("4a5b96de-684a-411b-9616-fddd0b06a382"), "Test Beer2", BeerStyleEnum.GOSE, "67890", 2, 12, BigDecimal.valueOf(12.99), 1L, LOCAL_DATE_TIME, LOCAL_DATE_TIME);
-        when(beerService.findAll())
-                .thenReturn(List.of(beer1, beer2));
+        final var beer1 = createBeer(UUID.fromString("71737f0e-11eb-4775-b8b4-ce945fdee936"), "Test Beer1", BeerStyle.IPA, "12345", 1, 11, BigDecimal.valueOf(11.99), 1, OFFSET_DATE_TIME, OFFSET_DATE_TIME);
+        final var beer2 = createBeer(UUID.fromString("4a5b96de-684a-411b-9616-fddd0b06a382"), "Test Beer2", BeerStyle.GOSE, "67890", 2, 12, BigDecimal.valueOf(12.99), 1, OFFSET_DATE_TIME, OFFSET_DATE_TIME);
+        BeerPage beerPage = BeerPage.of(
+                Pair.of(List.of(beer1, beer2), 2),
+                PageRequest.of(1, 2)
+        );
+        when(beerService.list(any(), any(), any()))
+                .thenReturn(beerPage);
 
         // when
         final var response = mockMvc.perform(get("/api/v1/beers"))
@@ -100,7 +108,7 @@ class BeerRestControllerTest extends AbstractMvcTest {
         final var beerResponse1 = beersResponseList.getFirst();
         assertNotNull(beerResponse1);
         assertEquals(beerResponse1.getBeerName(), beer1.getBeerName());
-        assertEquals(beerResponse1.getBeerStyle(), beer1.getBeerStyle());
+        assertEquals(beerResponse1.getBeerStyle(), beer1.getBeerStyle().name());
         assertEquals(beerResponse1.getUpc(), beer1.getUpc());
         assertEquals(beerResponse1.getMinOnHand(), beer1.getMinOnHand());
         assertEquals(beerResponse1.getQuantityToBrew(), beer1.getQuantityToBrew());
@@ -110,14 +118,14 @@ class BeerRestControllerTest extends AbstractMvcTest {
         final var beerResponse2 = beersResponseList.getLast();
         assertNotNull(beerResponse2);
         assertEquals(beerResponse2.getBeerName(), beer2.getBeerName());
-        assertEquals(beerResponse2.getBeerStyle(), beer2.getBeerStyle());
+        assertEquals(beerResponse2.getBeerStyle(), beer2.getBeerStyle().name());
         assertEquals(beerResponse2.getUpc(), beer2.getUpc());
         assertEquals(beerResponse2.getMinOnHand(), beer2.getMinOnHand());
         assertEquals(beerResponse2.getQuantityToBrew(), beer2.getQuantityToBrew());
         assertEquals(beerResponse2.getPrice(), beer2.getPrice());
         assertEquals(beerResponse2.getVersion(), beer2.getVersion());
         assertEquals(beerResponse2.getCreatedDate(), beer2.getCreatedDate());
-        verify(beerService).findAll();
+        verify(beerService).list(any(), any(), any());
     }
 
     @Test
@@ -141,7 +149,7 @@ class BeerRestControllerTest extends AbstractMvcTest {
     void shouldReturnBeer() throws Exception {
         // given
         final var beerId = UUID.fromString("71737f0e-11eb-4775-b8b4-ce945fdee936");
-        final var beer = createBeer(beerId, "Test Beer1", BeerStyleEnum.IPA, "12345", 1, 11, BigDecimal.valueOf(11.99), 1L, LOCAL_DATE_TIME, LOCAL_DATE_TIME);
+        final var beer = createBeer(beerId, "Test Beer1", BeerStyle.IPA, "12345", 1, 11, BigDecimal.valueOf(11.99), 1, OFFSET_DATE_TIME, OFFSET_DATE_TIME);
         when(beerService.findById(beerId)).thenReturn(Optional.of(beer));
 
         // when
@@ -154,22 +162,22 @@ class BeerRestControllerTest extends AbstractMvcTest {
         assertNotNull(response);
         final var responseBody = response.getContentAsString();
         assertNotNull(responseBody);
-        final var beerResponse = super.mapFromJson(responseBody, BeerResponse.class);
-        assertNotNull(beerResponse);
-        assertEquals(beerResponse.getBeerName(), beer.getBeerName());
-        assertEquals(beerResponse.getBeerStyle(), beer.getBeerStyle());
-        assertEquals(beerResponse.getUpc(), beer.getUpc());
-        assertEquals(beerResponse.getMinOnHand(), beer.getMinOnHand());
-        assertEquals(beerResponse.getQuantityToBrew(), beer.getQuantityToBrew());
-        assertEquals(beerResponse.getPrice(), beer.getPrice());
-        assertEquals(beerResponse.getVersion(), beer.getVersion());
-        assertEquals(beerResponse.getCreatedDate(), beer.getCreatedDate());
+        final var beerDto = super.mapFromJson(responseBody, BeerDto.class);
+        assertNotNull(beerDto);
+        assertEquals(beerDto.getBeerName(), beer.getBeerName());
+        assertEquals(beerDto.getBeerStyle(), beer.getBeerStyle().name());
+        assertEquals(beerDto.getUpc(), beer.getUpc());
+        assertEquals(beerDto.getMinOnHand(), beer.getMinOnHand());
+        assertEquals(beerDto.getQuantityToBrew(), beer.getQuantityToBrew());
+        assertEquals(beerDto.getPrice(), beer.getPrice());
+        assertEquals(beerDto.getVersion(), beer.getVersion());
+        assertEquals(beerDto.getCreatedDate(), beer.getCreatedDate());
     }
 
     @Test
     void shouldReturnCreatedBeer() throws Exception {
         // given
-        final var beer = createBeer(UUID.fromString("71737f0e-11eb-4775-b8b4-ce945fdee936"), "Test Beer1", BeerStyleEnum.IPA, "12345", 1, 11, BigDecimal.valueOf(11.99), 1L, LOCAL_DATE_TIME, LOCAL_DATE_TIME);
+        final var beer = createBeer(UUID.fromString("71737f0e-11eb-4775-b8b4-ce945fdee936"), "Test Beer1", BeerStyle.IPA, "12345", 1, 11, BigDecimal.valueOf(11.99), 1, OFFSET_DATE_TIME, OFFSET_DATE_TIME);
         final var beerRequest = BeerRequest.builder()
                 .beerName(beer.getBeerName())
                 .beerStyle(beer.getBeerStyle())
@@ -193,17 +201,17 @@ class BeerRestControllerTest extends AbstractMvcTest {
         assertNotNull(response);
         final var responseBody = response.getContentAsString();
         assertNotNull(responseBody);
-        final var beerResponse = super.mapFromJson(responseBody, BeerResponse.class);
-        assertNotNull(beerResponse);
-        assertEquals(beerResponse.getId(), beer.getId());
-        assertEquals(beerResponse.getBeerName(), beer.getBeerName());
-        assertEquals(beerResponse.getBeerStyle(), beer.getBeerStyle());
-        assertEquals(beerResponse.getUpc(), beer.getUpc());
-        assertEquals(beerResponse.getMinOnHand(), beer.getMinOnHand());
-        assertEquals(beerResponse.getQuantityToBrew(), beer.getQuantityToBrew());
-        assertEquals(beerResponse.getPrice(), beer.getPrice());
-        assertEquals(beerResponse.getVersion(), beer.getVersion());
-        assertEquals(beerResponse.getCreatedDate(), beer.getCreatedDate());
+        final var beerDto = super.mapFromJson(responseBody, BeerDto.class);
+        assertNotNull(beerDto);
+        assertEquals(beerDto.getId(), beer.getId());
+        assertEquals(beerDto.getBeerName(), beer.getBeerName());
+        assertEquals(beerDto.getBeerStyle(), beer.getBeerStyle().name());
+        assertEquals(beerDto.getUpc(), beer.getUpc());
+        assertEquals(beerDto.getMinOnHand(), beer.getMinOnHand());
+        assertEquals(beerDto.getQuantityToBrew(), beer.getQuantityToBrew());
+        assertEquals(beerDto.getPrice(), beer.getPrice());
+        assertEquals(beerDto.getVersion(), beer.getVersion());
+        assertEquals(beerDto.getCreatedDate(), beer.getCreatedDate());
         verify(beerService).create(any());
     }
 
@@ -212,7 +220,7 @@ class BeerRestControllerTest extends AbstractMvcTest {
         // given
         final var beerRequest = BeerRequest.builder()
                 .build();
-        when(dateTimeProvider.now()).thenReturn(LOCAL_DATE_TIME);
+        when(dateTimeProvider.now()).thenReturn(OFFSET_DATE_TIME);
 
         // when
         final var response = mockMvc.perform(post("/api/v1/beers")
@@ -251,10 +259,10 @@ class BeerRestControllerTest extends AbstractMvcTest {
     @Test
     void shouldReturnUpdatedBeer() throws Exception {
         // given
-        final var localDateTime = LocalDateTime.of(2025, 1, 23, 12, 7, 10, 0);
-        final var originalBeer = createBeer(UUID.fromString("71737f0e-11eb-4775-b8b4-ce945fdee936"), "Test Beer", BeerStyleEnum.ALE, "12345", 5, 10, BigDecimal.valueOf(10.99), 1L, LOCAL_DATE_TIME, LOCAL_DATE_TIME);
+        final var offsetDateTime = OffsetDateTime.of(2025, 1, 23, 12, 7, 10, 0, ZoneOffset.UTC);
+        final var originalBeer = createBeer(UUID.fromString("71737f0e-11eb-4775-b8b4-ce945fdee936"), "Test Beer", BeerStyle.ALE, "12345", 5, 10, BigDecimal.valueOf(10.99), 1, OFFSET_DATE_TIME, OFFSET_DATE_TIME);
         final var updateRequest = getUpdateRequest(originalBeer);
-        final var expectedBeer = getExpectedBeer(originalBeer, localDateTime);
+        final var expectedBeer = getExpectedBeer(originalBeer, offsetDateTime);
         final var beerRequest = BeerRequest.builder()
                 .beerName(updateRequest.getBeerName())
                 .beerStyle(updateRequest.getBeerStyle())
@@ -278,24 +286,24 @@ class BeerRestControllerTest extends AbstractMvcTest {
         assertNotNull(response);
         final var responseBody = response.getContentAsString();
         assertNotNull(responseBody);
-        final var beerResponse = super.mapFromJson(responseBody, BeerResponse.class);
-        assertNotNull(beerResponse);
-        assertEquals(beerResponse.getId(), expectedBeer.getId());
-        assertEquals(beerResponse.getBeerName(), expectedBeer.getBeerName());
-        assertEquals(beerResponse.getBeerStyle(), expectedBeer.getBeerStyle());
-        assertEquals(beerResponse.getUpc(), expectedBeer.getUpc());
-        assertEquals(beerResponse.getMinOnHand(), expectedBeer.getMinOnHand());
-        assertEquals(beerResponse.getQuantityToBrew(), expectedBeer.getQuantityToBrew());
-        assertEquals(beerResponse.getPrice(), expectedBeer.getPrice());
-        assertEquals(beerResponse.getVersion(), expectedBeer.getVersion());
-        assertEquals(beerResponse.getCreatedDate(), expectedBeer.getCreatedDate());
+        final var beerDto = super.mapFromJson(responseBody, BeerDto.class);
+        assertNotNull(beerDto);
+        assertEquals(beerDto.getId(), expectedBeer.getId());
+        assertEquals(beerDto.getBeerName(), expectedBeer.getBeerName());
+        assertEquals(beerDto.getBeerStyle(), expectedBeer.getBeerStyle().name());
+        assertEquals(beerDto.getUpc(), expectedBeer.getUpc());
+        assertEquals(beerDto.getMinOnHand(), expectedBeer.getMinOnHand());
+        assertEquals(beerDto.getQuantityToBrew(), expectedBeer.getQuantityToBrew());
+        assertEquals(beerDto.getPrice(), expectedBeer.getPrice());
+        assertEquals(beerDto.getVersion(), expectedBeer.getVersion());
+        assertEquals(beerDto.getCreatedDate(), expectedBeer.getCreatedDate());
         verify(beerService).update(any(), any());
     }
 
     @Test
     void shouldThrowNotFoundWhenTryUpdateBeerButBeerByIdNotExists() throws Exception {
         // given
-        final var beer = createBeer(UUID.fromString("71737f0e-11eb-4775-b8b4-ce945fdee936"), "Test Beer", BeerStyleEnum.ALE, "12345", 5, 10, BigDecimal.valueOf(10.99), 1L, LOCAL_DATE_TIME, LOCAL_DATE_TIME);
+        final var beer = createBeer(UUID.fromString("71737f0e-11eb-4775-b8b4-ce945fdee936"), "Test Beer", BeerStyle.ALE, "12345", 5, 10, BigDecimal.valueOf(10.99), 1, OFFSET_DATE_TIME, OFFSET_DATE_TIME);
         final var beerRequest = BeerRequest.builder()
                 .beerName(beer.getBeerName())
                 .beerStyle(beer.getBeerStyle())
@@ -305,7 +313,7 @@ class BeerRestControllerTest extends AbstractMvcTest {
                 .price(beer.getPrice())
                 .build();
         when(beerService.update(any(), any())).thenThrow(new BeerNotFoundException("Beer Not Found. UUID: " + beer.getId()));
-        when(dateTimeProvider.now()).thenReturn(LOCAL_DATE_TIME);
+        when(dateTimeProvider.now()).thenReturn(OFFSET_DATE_TIME);
 
         // when
         final var response = mockMvc.perform(put("/api/v1/beers/" + beer.getId())
@@ -335,10 +343,10 @@ class BeerRestControllerTest extends AbstractMvcTest {
     @Test
     void shouldThrowBadRequestWhenTryUpdateButBeerRequestIsInvalid() throws Exception {
         // given
-        final var originalBeer = createBeer(UUID.fromString("71737f0e-11eb-4775-b8b4-ce945fdee936"), "Test Beer", BeerStyleEnum.ALE, "12345", 5, 10, BigDecimal.valueOf(10.99), 1L, LOCAL_DATE_TIME, LOCAL_DATE_TIME);
+        final var originalBeer = createBeer(UUID.fromString("71737f0e-11eb-4775-b8b4-ce945fdee936"), "Test Beer", BeerStyle.ALE, "12345", 5, 10, BigDecimal.valueOf(10.99), 1, OFFSET_DATE_TIME, OFFSET_DATE_TIME);
         final var beerRequest = BeerRequest.builder()
                 .build();
-        when(dateTimeProvider.now()).thenReturn(LOCAL_DATE_TIME);
+        when(dateTimeProvider.now()).thenReturn(OFFSET_DATE_TIME);
 
         // when
         final var response = mockMvc.perform(put("/api/v1/beers/" + originalBeer.getId())
@@ -404,7 +412,7 @@ class BeerRestControllerTest extends AbstractMvcTest {
         verify(beerService).delete(beerId);
     }
 
-    private Beer createBeer(UUID id, String beerName, BeerStyleEnum beerStyle, String upc, int minOnHand, int quantityToBrew, BigDecimal price, long version, LocalDateTime createdDate, LocalDateTime lastModifiedDate) {
+    private Beer createBeer(UUID id, String beerName, BeerStyle beerStyle, String upc, int minOnHand, int quantityToBrew, BigDecimal price, int version, OffsetDateTime createdDate, OffsetDateTime lastModifiedDate) {
         return Beer.builder()
                 .id(id)
                 .beerName(beerName)
@@ -434,7 +442,7 @@ class BeerRestControllerTest extends AbstractMvcTest {
         );
     }
 
-    private Beer getExpectedBeer(Beer originalBeer, LocalDateTime LocalDateTime) {
+    private Beer getExpectedBeer(Beer originalBeer, OffsetDateTime offsetDateTime) {
         return createBeer(
                 originalBeer.getId(),
                 "Updated Beer",
@@ -445,7 +453,7 @@ class BeerRestControllerTest extends AbstractMvcTest {
                 originalBeer.getPrice(),
                 originalBeer.getVersion(),
                 originalBeer.getCreatedDate(),
-                LocalDateTime
+                offsetDateTime
         );
     }
 }

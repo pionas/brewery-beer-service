@@ -1,6 +1,6 @@
-package pl.excellentapp.brewery.beer.domain.beer;
+package pl.excellentapp.brewery.model;
 
-public enum BeerStyleEnum {
+public enum BeerStyle {
 
     LAGER, PILSNER, STOUT, GOSE, PORTER, ALE, WHEAT, IPA, PALE_ALE, SAISON
 }

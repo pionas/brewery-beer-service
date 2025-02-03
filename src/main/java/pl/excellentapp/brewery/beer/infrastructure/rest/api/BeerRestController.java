@@ -14,9 +14,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import pl.excellentapp.brewery.beer.application.beer.BeerService;
 import pl.excellentapp.brewery.beer.infrastructure.rest.api.dto.BeerRequest;
-import pl.excellentapp.brewery.beer.infrastructure.rest.api.dto.BeerResponse;
 import pl.excellentapp.brewery.beer.infrastructure.rest.api.dto.BeersResponse;
 import pl.excellentapp.brewery.beer.infrastructure.rest.api.mapper.BeerRestMapper;
+import pl.excellentapp.brewery.model.BeerDto;
 
 import java.util.UUID;
 
@@ -24,7 +24,7 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/api/v1/beers")
 class BeerRestController {
-
+    
     private final BeerService beerService;
     private final BeerRestMapper beerRestMapper;
 
@@ -34,7 +34,7 @@ class BeerRestController {
     }
 
     @GetMapping("/{beerId}")
-    public ResponseEntity<BeerResponse> getBeer(@PathVariable("beerId") UUID beerId) {
+    public ResponseEntity<BeerDto> getBeer(@PathVariable("beerId") UUID beerId) {
         return beerService.findById(beerId)
                 .map(beerRestMapper::map)
                 .map(beerResponse -> new ResponseEntity<>(beerResponse, HttpStatus.OK))
@@ -42,14 +42,14 @@ class BeerRestController {
     }
 
     @PostMapping
-    public ResponseEntity<BeerResponse> createBeer(@Valid @RequestBody BeerRequest beerRequest) {
+    public ResponseEntity<BeerDto> createBeer(@Valid @RequestBody BeerRequest beerRequest) {
         final var beerResponse = beerRestMapper.map(beerService.create(beerRestMapper.map(beerRequest)));
 
         return new ResponseEntity<>(beerResponse, HttpStatus.CREATED);
     }
 
     @PutMapping("/{beerId}")
-    public ResponseEntity<BeerResponse> updateBeer(@PathVariable("beerId") UUID beerId, @Valid @RequestBody BeerRequest beerRequest) {
+    public ResponseEntity<BeerDto> updateBeer(@PathVariable("beerId") UUID beerId, @Valid @RequestBody BeerRequest beerRequest) {
         final var beerResponse = beerRestMapper.map(beerService.update(beerId, beerRestMapper.map(beerRequest)));
 
         return new ResponseEntity<>(beerResponse, HttpStatus.OK);

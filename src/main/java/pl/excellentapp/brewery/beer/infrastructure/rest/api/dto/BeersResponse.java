@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import pl.excellentapp.brewery.model.BeerDto;
 
 import java.util.List;
 
@@ -13,5 +14,5 @@ import java.util.List;
 @Builder
 public class BeersResponse {
 
-    private List<BeerResponse> beers;
+    private List<BeerDto> beers;
 }

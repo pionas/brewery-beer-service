@@ -8,12 +8,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.jdbc.JdbcTestUtils;
-import pl.excellentapp.brewery.beer.domain.beer.BeerStyleEnum;
-import pl.excellentapp.brewery.beer.infrastructure.rest.api.dto.BeerResponse;
 import pl.excellentapp.brewery.beer.infrastructure.rest.api.dto.BeersResponse;
+import pl.excellentapp.brewery.model.BeerDto;
+import pl.excellentapp.brewery.model.BeerStyle;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
 import java.util.Map;
 import java.util.UUID;
 
@@ -68,7 +69,7 @@ class BeerRestControllerIT extends AbstractIT {
         final var beerId = UUID.fromString("1b4e28ba-2fa1-4d3b-a3f5-ef19b5a7633b");
 
         // when
-        final var response = restTemplate.getForEntity(BEERS_API_URL + "/{beerId}", BeerResponse.class, beerId);
+        final var response = restTemplate.getForEntity(BEERS_API_URL + "/{beerId}", BeerDto.class, beerId);
 
         // then
         assertEquals(HttpStatus.OK, response.getStatusCode());
@@ -76,13 +77,13 @@ class BeerRestControllerIT extends AbstractIT {
         assertNotNull(responseBody);
         assertEquals(beerId, responseBody.getId());
         assertEquals("Classic Lager", responseBody.getBeerName());
-        assertEquals(BeerStyleEnum.LAGER, responseBody.getBeerStyle());
+        assertEquals(BeerStyle.LAGER.name(), responseBody.getBeerStyle());
         assertEquals("1234567890", responseBody.getUpc());
         assertEquals(10, responseBody.getMinOnHand());
         assertEquals(50, responseBody.getQuantityToBrew());
         assertEquals(BigDecimal.valueOf(8.49), responseBody.getPrice());
         assertEquals(1, responseBody.getVersion());
-        assertEquals(LocalDateTime.of(2025, 1, 24, 14, 0, 0, 0), responseBody.getCreatedDate());
+        assertEquals(OffsetDateTime.of(2025, 1, 24, 14, 0, 0, 0, ZoneOffset.UTC), responseBody.getCreatedDate());
     }
 
     @Test
@@ -120,7 +121,7 @@ class BeerRestControllerIT extends AbstractIT {
 
         // then
         assertEquals(HttpStatus.ACCEPTED, response.getStatusCode());
-        final var responseVerify = restTemplate.getForEntity(BEERS_API_URL + "/{beerId}", BeerResponse.class, beerId);
+        final var responseVerify = restTemplate.getForEntity(BEERS_API_URL + "/{beerId}", BeerDto.class, beerId);
         assertEquals(HttpStatus.NOT_FOUND, responseVerify.getStatusCode());
     }
 
