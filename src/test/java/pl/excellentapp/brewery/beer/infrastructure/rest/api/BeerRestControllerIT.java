@@ -10,6 +10,7 @@ import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.jdbc.JdbcTestUtils;
 import pl.excellentapp.brewery.beer.infrastructure.rest.api.dto.BeersResponse;
 import pl.excellentapp.brewery.model.BeerDto;
+import pl.excellentapp.brewery.model.BeerPagedList;
 import pl.excellentapp.brewery.model.BeerStyle;
 
 import java.math.BigDecimal;
@@ -34,13 +35,13 @@ class BeerRestControllerIT extends AbstractIT {
         // given
 
         // when
-        final var response = restTemplate.getForEntity(BEERS_API_URL, BeersResponse.class);
+        final var response = restTemplate.getForEntity(BEERS_API_URL, BeerPagedList.class);
 
         // then
         assertEquals(HttpStatus.OK, response.getStatusCode());
         final var responseBody = response.getBody();
         assertNotNull(responseBody);
-        final var beersResponse = responseBody.getBeers();
+        final var beersResponse = responseBody.getContent();
         assertNotNull(beersResponse);
         assertTrue(beersResponse.isEmpty());
     }
@@ -51,13 +52,13 @@ class BeerRestControllerIT extends AbstractIT {
         // given
 
         // when
-        final var response = restTemplate.getForEntity(BEERS_API_URL, BeersResponse.class);
+        final var response = restTemplate.getForEntity(BEERS_API_URL, BeerPagedList.class);
 
         // then
         assertEquals(HttpStatus.OK, response.getStatusCode());
         final var responseBody = response.getBody();
         assertNotNull(responseBody);
-        final var beersResponse = responseBody.getBeers();
+        final var beersResponse = responseBody.getContent();
         assertNotNull(beersResponse);
         assertFalse(beersResponse.isEmpty());
     }

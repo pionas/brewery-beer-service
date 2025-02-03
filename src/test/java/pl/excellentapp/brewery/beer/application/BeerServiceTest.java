@@ -2,6 +2,8 @@ package pl.excellentapp.brewery.beer.application;
 
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.util.Pair;
 import pl.excellentapp.brewery.beer.application.beer.BeerService;
 import pl.excellentapp.brewery.beer.application.beer.BeerServiceImpl;
 import pl.excellentapp.brewery.beer.domain.beer.Beer;
@@ -45,17 +47,17 @@ class BeerServiceTest {
                 createBeer(UUID.fromString("9c3e5d7a-b8f2-41c3-82e9-f2b1d6e5c4f7"), "Crisp Pale Ale", BeerStyle.PALE_ALE, "9012345678", 10, 37, BigDecimal.valueOf(10.29), 1, OFFSET_DATE_TIME, OFFSET_DATE_TIME),
                 createBeer(UUID.fromString("0d1e2f3b-5a7c-4d1f-8e9b-2f3d6a8b7c5f"), "Rustic Saison", BeerStyle.SAISON, "0123456789", 4, 18, BigDecimal.valueOf(13.99), 1, OFFSET_DATE_TIME, OFFSET_DATE_TIME)
         );
-        when(beerRepository.findAll()).thenReturn(beers);
+        when(beerRepository.list(any(), any(), any())).thenReturn(Pair.of(beers, 10));
 
         // when
-        final var result = beerService.list("beerName", null, null);
+        final var result = beerService.list("beerName", null, PageRequest.of(1, 20));
 
         // then
         assertEquals(10, result.getTotal());
         assertEquals(1, result.getPageNumber());
-        assertEquals(10, result.getPageSize());
+        assertEquals(20, result.getPageSize());
         assertEquals(beers, result.getBeers());
-        verify(beerRepository, times(1)).findAll();
+        verify(beerRepository, times(1)).list(any(), any(), any());
     }
 
     @Test

@@ -1,13 +1,14 @@
 package pl.excellentapp.brewery.beer.application.beer;
 
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import pl.excellentapp.brewery.beer.domain.beer.Beer;
 import pl.excellentapp.brewery.beer.domain.beer.BeerRepository;
 import pl.excellentapp.brewery.beer.domain.exception.BeerNotFoundException;
 import pl.excellentapp.brewery.beer.utils.DateTimeProvider;
+import pl.excellentapp.brewery.model.BeerStyle;
 
-import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -19,8 +20,8 @@ public class BeerServiceImpl implements BeerService {
     private final DateTimeProvider dateTimeProvider;
 
     @Override
-    public List<Beer> findAll() {
-        return beerRepository.findAll();
+    public BeerPage list(String beerName, BeerStyle beerStyle, PageRequest pageRequest) {
+        return BeerPage.of(beerRepository.list(beerName, beerStyle, pageRequest), pageRequest);
     }
 
     @Override

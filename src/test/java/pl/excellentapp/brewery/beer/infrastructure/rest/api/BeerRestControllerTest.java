@@ -22,6 +22,7 @@ import pl.excellentapp.brewery.beer.infrastructure.rest.api.mapper.BeerRestMappe
 import pl.excellentapp.brewery.beer.infrastructure.rest.handler.GlobalExceptionHandler;
 import pl.excellentapp.brewery.beer.utils.DateTimeProvider;
 import pl.excellentapp.brewery.model.BeerDto;
+import pl.excellentapp.brewery.model.BeerPagedList;
 import pl.excellentapp.brewery.model.BeerStyle;
 
 import java.math.BigDecimal;
@@ -100,9 +101,9 @@ class BeerRestControllerTest extends AbstractMvcTest {
         assertNotNull(response);
         final var responseBody = response.getContentAsString();
         assertNotNull(responseBody);
-        final var beersResponse = super.mapFromJson(responseBody, BeersResponse.class);
-        assertNotNull(beersResponse);
-        final var beersResponseList = beersResponse.getBeers();
+        final var beerPagedList = super.mapFromJson(responseBody, BeerPagedList.class);
+        assertNotNull(beerPagedList);
+        final var beersResponseList = beerPagedList.getContent();
         assertNotNull(beersResponseList);
         assertEquals(2, beersResponseList.size());
         final var beerResponse1 = beersResponseList.getFirst();
@@ -234,7 +235,7 @@ class BeerRestControllerTest extends AbstractMvcTest {
         // then
         final var expectedJson = """
                     {
-                       "timestamp": "2025-01-23T12:07:00",
+                       "timestamp": "2025-01-23T12:07:00Z",
                        "status": 400,
                        "errors": {
                          "beerName": ["must not be blank"],
@@ -327,7 +328,7 @@ class BeerRestControllerTest extends AbstractMvcTest {
         // then
         final var expectedJson = """
                     {
-                       "timestamp": "2025-01-23T12:07:00",
+                       "timestamp": "2025-01-23T12:07:00Z",
                        "status": 404,
                        "errors": ["Beer Not Found. UUID: 71737f0e-11eb-4775-b8b4-ce945fdee936"]
                      }
@@ -360,7 +361,7 @@ class BeerRestControllerTest extends AbstractMvcTest {
         // then
         final var expectedJson = """
                     {
-                       "timestamp": "2025-01-23T12:07:00",
+                       "timestamp": "2025-01-23T12:07:00Z",
                        "status": 400,
                        "errors": {
                          "beerName": ["must not be blank"],
