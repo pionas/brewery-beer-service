@@ -279,7 +279,7 @@ class BeerRestControllerTest extends AbstractMvcTest {
                         .content(super.mapToJson(beerRequest))
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
+                .andExpect(status().isNoContent())
                 .andReturn()
                 .getResponse();
 

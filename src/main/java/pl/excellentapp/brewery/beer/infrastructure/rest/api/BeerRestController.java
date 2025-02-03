@@ -70,7 +70,7 @@ class BeerRestController {
     public ResponseEntity<BeerDto> updateBeer(@PathVariable("beerId") UUID beerId, @Valid @RequestBody BeerRequest beerRequest) {
         final var beerResponse = beerRestMapper.map(beerService.update(beerId, beerRestMapper.map(beerRequest)));
 
-        return new ResponseEntity<>(beerResponse, HttpStatus.OK);
+        return new ResponseEntity<>(beerResponse, HttpStatus.NO_CONTENT);
     }
 
     @DeleteMapping("/{beerId}")
