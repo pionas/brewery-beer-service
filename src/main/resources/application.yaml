@@ -27,6 +27,8 @@ http-client:
 queue:
   beer:
     brewing: beer-brewing
+    validate: beer-validate
+    validate-response: beer-validate-response
   inventory:
     add-stock: beer-inventory-add-stock
 
