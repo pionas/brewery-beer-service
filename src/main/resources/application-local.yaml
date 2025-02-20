@@ -34,7 +34,7 @@ queue:
 scheduler:
   lock-at-least-for: PT5M
   cron:
-    inventory-checking: "0 0 */1 * * *"
+    inventory-checking: "0 */1 * * * *"
 
 rest:
   inventory:
