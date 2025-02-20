@@ -17,6 +17,19 @@ spring:
     password: artemis-password
   liquibase:
     change-log: classpath:db/changelog/dbchangelog-local.xml
+  cloud:
+    openfeign:
+      circuitbreaker:
+        enabled: true
+resilience4j:
+  circuitbreaker:
+    instances:
+      inventory-service:
+        minimumNumberOfCalls: 1
+  timelimiter:
+    instances:
+      inventory-service:
+        timeoutDuration: 10s
 
 http-client:
   max-total: 50
@@ -39,6 +52,8 @@ scheduler:
 rest:
   inventory:
     service: "http://localhost:8081/api/v1/inventories/"
+  gateway:
+    service: "http://localhost:9001/"
 
 eureka:
   client:
