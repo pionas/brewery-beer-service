@@ -1,0 +1,36 @@
+spring:
+  datasource:
+    url: jdbc:h2:mem:brewery-beer-service-test;MODE=MYSQL
+    driverClassName: org.h2.Driver
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+  scheduling:
+    enabled: false
+  liquibase:
+    change-log: classpath:db/changelog/dbchangelog-prod.xml
+
+http-client:
+  max-total: 50
+  max-per-route: 20
+  socket-timeout: PT5S
+  idle-timeout: PT60S
+  keep-alive-time: PT5S
+
+queue:
+  beer:
+    brewing: beer-brewing
+  inventory:
+    add-stock: beer-inventory-add-stock
+
+scheduler:
+  lock-at-least-for: PT5M
+  cron:
+    inventory-checking: "0 */1 * * * *"
+
+rest:
+  inventory:
+    service: "http://localhost:8888/api/v1/inventories/"
+  gateway:
+    service: "http://localhost:8888/gateway"
+server:
+  port: 8082
