@@ -17,6 +17,7 @@
         <jackson-datatype-jsr310.version>2.18.2</jackson-datatype-jsr310.version>
         <shedlock-spring.version>6.2.0</shedlock-spring.version>
         <wiremock.version>3.10.0</wiremock.version>
+        <spring-cloud-starter-netflix-eureka-client.version>4.2.0</spring-cloud-starter-netflix-eureka-client.version>
     </properties>
 
     <repositories>
@@ -57,7 +58,7 @@
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
-            <version>4.2.0</version>
+            <version>${spring-cloud-starter-netflix-eureka-client.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.cloud</groupId>
