@@ -29,7 +29,7 @@ scheduler:
 
 rest:
   inventory:
-    service: "http://localhost:8888/api/v1/inventories/"
+    url: "http://localhost:8888/api/v1/inventories/"
   gateway:
     service: "http://localhost:8888/gateway"
 server:
