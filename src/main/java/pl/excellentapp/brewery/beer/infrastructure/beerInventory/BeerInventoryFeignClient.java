@@ -5,10 +5,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import pl.excellentapp.brewery.beer.infrastructure.configuration.BeerInventoryFeignConfiguration;
+import pl.excellentapp.brewery.beer.infrastructure.configuration.FeignCorrelationIdConfiguration;
 
 import java.util.UUID;
 
-@FeignClient(name = "inventory-service", url = "${rest.inventory.url}", fallback = BeerInventoryFailoverClient.class, configuration = BeerInventoryFeignConfiguration.class)
+@FeignClient(name = "inventory-service", url = "${rest.inventory.url}", fallback = BeerInventoryFailoverClient.class, configuration = {FeignCorrelationIdConfiguration.class, BeerInventoryFeignConfiguration.class})
 interface BeerInventoryFeignClient {
 
     @GetMapping("/{beerId}")
